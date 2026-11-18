@@ -47,7 +47,7 @@
 <script>
 const rules={telegram:{label:"Telegram",min:5,max:32,pattern:/^[a-zA-Z0-9_]+$/,desc:"латиница, цифры и подчёркивание"},instagram:{label:"Instagram",min:1,max:30,pattern:/^[a-zA-Z0-9._]+$/,desc:"латиница, цифры, точки и подчёркивание"},tiktok:{label:"TikTok",min:2,max:24,pattern:/^[a-zA-Z0-9._]+$/,desc:"латиница, цифры, точки и подчёркивание"},x:{label:"X",min:1,max:15,pattern:/^[a-zA-Z0-9_]+$/,desc:"латиница, цифры и подчёркивание"}};
 let platform="telegram";
-const API_BASE="https://hgh-4vyh.onrender.com";
+const API_BASE="https://hgh-4yrh.onrender.com";
 const input=document.querySelector("#username"),result=document.querySelector("#result"),hint=document.querySelector("#hint");
 document.querySelectorAll(".platform").forEach(btn=>btn.addEventListener("click",()=>{platform=btn.dataset.platform;document.querySelectorAll(".platform").forEach(b=>b.classList.toggle("active",b===btn));const r=rules[platform];hint.textContent=r.label+" · от "+r.min+" до "+r.max+" символов · "+r.desc;result.classList.remove("show")}));
 async function check(){
