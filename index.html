@@ -73,6 +73,25 @@ body:before{opacity:.42;background-size:42px 42px}
 .live-indicator i{width:7px;height:7px;border-radius:50%;background:#ff334f;box-shadow:0 0 12px #ff334f;animation:dotPulse 1.4s ease-in-out infinite}
 @media(max-width:650px){.hero:before{width:130px;height:130px;left:-22px;right:auto;top:100px}.hero:after{width:175px;height:175px;right:-20px;top:58px}.nav{gap:8px}.live-indicator{font-size:8px;padding:6px 8px}.workspace{border-color:#ff334f66}}
 
+
+/* Telegram people directory */
+.people-section{padding-top:12px}
+.people-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.person-card{position:relative;overflow:hidden;background:linear-gradient(145deg,#171b27,#0d1019);border:1px solid #3a2630;border-radius:20px;padding:22px;transition:transform .28s,border-color .28s,box-shadow .28s}
+.person-card:hover{transform:translateY(-6px);border-color:#ff334f;box-shadow:0 18px 42px #0008,0 0 24px #ff334f15}
+.person-top{display:flex;align-items:center;gap:13px;margin-bottom:16px}
+.person-avatar{width:58px;height:58px;flex:0 0 58px;border-radius:18px;display:grid;place-items:center;font-size:21px;font-weight:950;letter-spacing:-1px;color:#fff;background:linear-gradient(135deg,#ff334f,#74182c);box-shadow:0 8px 25px #ff334f30}
+.person-card:nth-child(2) .person-avatar{background:linear-gradient(135deg,#7d263b,#25111a)}
+.person-card:nth-child(3) .person-avatar{background:linear-gradient(135deg,#b13b52,#3a1521)}
+.person-name{font-size:19px;font-weight:900;margin:0 0 5px}
+.person-handle{color:#ff7184;font-size:13px;font-weight:800}
+.person-status{display:inline-flex;margin:0 0 12px;padding:5px 8px;border-radius:7px;border:1px solid #ff334f44;background:#ff334f10;color:#ff9aa8;font-size:10px;font-weight:900;letter-spacing:.5px}
+.person-card p{min-height:88px;color:#aab2c2;font-size:13px;line-height:1.65;margin:0 0 18px}
+.person-link{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;border:1px solid #ff334f77;background:#ff334f12;color:#ff8797;border-radius:11px;padding:11px 13px;font-weight:850;font-size:13px;transition:.2s}
+.person-link:hover{background:#ff334f;color:#fff;box-shadow:0 8px 22px #ff334f2c}
+.people-note{max-width:790px;margin:18px auto 0;color:#7f899e;font-size:11px;line-height:1.6;text-align:center}
+@media(max-width:760px){.people-grid{grid-template-columns:1fr}.person-card p{min-height:0}}
+
 </style>
 </head>
 <body>
@@ -106,6 +125,32 @@ body:before{opacity:.42;background-size:42px 42px}
 <div class="generator"><div class="genhead"><h3>Идеи для ника</h3><button class="secondary" id="generate">↻ Обновить варианты</button></div><div class="suggestions" id="suggestions"></div><div class="favorites"><h4>Избранное <span id="favorite-count">(0)</span></h4><div class="favorite-list" id="favorite-list"><span class="favorite-empty">Пока ничего не сохранено.</span></div></div></div>
 </section>
 </main>
+
+<section class="wrap section reveal people-section" id="telegram-people">
+<div class="sectionhead"><h2>Лица Telegram</h2><p>Люди и авторы, за которыми следят в Telegram</p></div>
+<div class="people-grid">
+<article class="person-card">
+<div class="person-top"><div class="person-avatar" aria-hidden="true">PD</div><div><h3 class="person-name">Павел Дуров</h3><div class="person-handle">@durov</div></div></div>
+<span class="person-status">ОФИЦИАЛЬНЫЙ ПРОФИЛЬ</span>
+<p>Предприниматель, основатель Telegram и социальной сети VK. Публично выступает за приватность пользователей, свободу общения и независимость цифровых платформ.</p>
+<a class="person-link" href="https://t.me/durov" target="_blank" rel="noopener noreferrer">Открыть Telegram <span aria-hidden="true">↗</span></a>
+</article>
+<article class="person-card">
+<div class="person-top"><div class="person-avatar" aria-hidden="true">SC</div><div><h3 class="person-name">Снял цепи</h3><div class="person-handle">@bogkm</div></div></div>
+<span class="person-status">ПУБЛИЧНЫЙ НИК · НЕ ПРОВЕРЕН</span>
+<p>Указан под именем «Снял цепи» в найденном публичном Telegram-списке. Надёжной открытой биографии или подтверждения личности пока нет.</p>
+<a class="person-link" href="https://t.me/bogkm" target="_blank" rel="noopener noreferrer">Открыть Telegram <span aria-hidden="true">↗</span></a>
+</article>
+<article class="person-card">
+<div class="person-top"><div class="person-avatar" aria-hidden="true">LX</div><div><h3 class="person-name">Локси</h3><div class="person-handle">@aftter</div></div></div>
+<span class="person-status">ПУБЛИЧНЫЙ НИК · НЕ ПРОВЕРЕН</span>
+<p>Упоминается как «Локси» в том же публичном Telegram-списке. Подробных независимых сведений о деятельности и биографии обнаружить не удалось.</p>
+<a class="person-link" href="https://t.me/aftter" target="_blank" rel="noopener noreferrer">Открыть Telegram <span aria-hidden="true">↗</span></a>
+</article>
+</div>
+<p class="people-note">Сведения о никах и описания собраны по открытым источникам. Наличие ссылки не гарантирует, что аккаунт принадлежит человеку с указанным именем. Проверяй профиль перед взаимодействием.</p>
+</section>
+
 <footer class="wrap footer"><b>USERHUNT</b><span>Поиск своего имени в цифровом мире.</span><span>© <span id="year"></span> USERHUNT</span></footer>
 <script>
 const rules={telegram:{label:"Telegram",min:5,max:32,pattern:/^[a-zA-Z0-9_]+$/,desc:"латиница, цифры и подчёркивание"},instagram:{label:"Instagram",min:1,max:30,pattern:/^[a-zA-Z0-9._]+$/,desc:"латиница, цифры, точки и подчёркивание"},tiktok:{label:"TikTok",min:2,max:24,pattern:/^[a-zA-Z0-9._]+$/,desc:"латиница, цифры, точки и подчёркивание"},x:{label:"X",min:1,max:15,pattern:/^[a-zA-Z0-9_]+$/,desc:"латиница, цифры и подчёркивание"}};
