@@ -121,9 +121,7 @@ async function discoverOnPlatform(platform, username) {
     }
     const title = (html.match(/<title[^>]*>([\\s\\S]*?)<\\/title>/i) || [,""])[1]
       .replace(/&amp;/g, "&").replace(/&#x27;/g, "'").replace(/&quot;/g, '"').trim();
-    const hasProfileSignals = new RegExp(username.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\const server = http.createServer(async (req, res) => {"), "i").test(title) ||
-      /profilePage|profileHeader|user-profile|og:type.{0,30}profile|profile\\.php/i.test(html);
-    if (hasProfileSignals) {
+    const hasProfileSignals = title.toLowerCase().includes(username.toLowerCase()) || /profilePage|profileHeader|user-profile|og:type.{0,30}profile|profile\\.php/i.test(html);\n    if (hasProfileSignals) {
       return { platform, url: profileUrl, status: "possible_match", message: title ? "Найдена публичная страница: " + title.slice(0, 110) : "Страница отвечает как публичный профиль." };
     }
     return { platform, url: profileUrl, status: "unknown", message: "Страница открывается, но подтвердить профиль по её содержимому не удалось." };
