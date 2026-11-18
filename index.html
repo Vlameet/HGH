@@ -65,12 +65,12 @@ async function check(){
     const data=await response.json();
     if(!response.ok) throw new Error(data.error||"Ошибка сервера");
     const labels={
-      occupied:"Публичная страница найдена",
-      not_found:"Публичная страница не найдена",
-      unknown:"Не удалось определить",
-      unsupported:"Проверка пока не подключена"
+      occupied:"ВЕРОЯТНО ЗАНЯТ",
+      not_found:"СТРАНИЦА НЕ НАЙДЕНА · СВОБОДНОСТЬ НЕ ПОДТВЕРЖДЕНА",
+      unknown:"НЕ УДАЛОСЬ ОПРЕДЕЛИТЬ",
+      unsupported:"ПРОВЕРКА ПОКА НЕ ПОДКЛЮЧЕНА"
     };
-    result.textContent=labels[data.status]+": @"+value+". "+data.message;
+    result.textContent=labels[data.status]+ "\\n@"+value+"\\n"+data.message+"\\n\\nВажно: только официальный авторизованный метод Telegram может проверить, можно ли назначить базовый username конкретному аккаунту.";
   }catch(error){
     result.textContent="Не удалось связаться с сервером USERHUNT. "+error.message;
   }
