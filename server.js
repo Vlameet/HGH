@@ -12,7 +12,9 @@ function send(res, status, data) {
   res.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
-    "X-Content-Type-Options": "nosniff"
+    "X-Content-Type-Options": "nosniff",
+    "Access-Control-Allow-Origin": "https://userhunt.onrender.com",
+    "Vary": "Origin"
   });
   res.end(JSON.stringify(data));
 }
@@ -78,6 +80,16 @@ async function checkTelegram(username) {
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://localhost");
+
+  if (url.pathname.startsWith("/api/") && req.method === "OPTIONS") {
+    res.writeHead(204, {
+      "Access-Control-Allow-Origin": "https://userhunt.onrender.com",
+      "Access-Control-Allow-Methods": "GET, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Vary": "Origin"
+    });
+    return res.end();
+  }
 
   if (url.pathname === "/api/health") {
     return send(res, 200, { ok: true, service: "USERHUNT API" });
