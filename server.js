@@ -86,7 +86,59 @@ async function checkTelegram(username) {
   }
 }
 
-const server = http.createServer(async (req, res) => {
+
+async function discoverOnPlatform(platform, username) {
+  const profiles = {
+    telegram: "https://t.me/" + username,
+    instagram: "https://www.instagram.com/" + username + "/",
+    tiktok: "https://www.tiktok.com/@" + username,
+    x: "https://x.com/" + username,
+    youtube: "https://www.youtube.com/@" + username,
+    reddit: "https://www.reddit.com/user/" + username + "/",
+    github: "https://github.com/" + username,
+    pinterest: "https://www.pinterest.com/" + username + "/",
+    threads: "https://www.threads.net/@" + username
+  };
+  const profileUrl = profiles[platform];
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 6500);
+  try {
+    const response = await fetch(profileUrl, {
+      redirect: "follow",
+      signal: controller.signal,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; USERHUNT/1.0; +https://userhunt.onrender.com)",
+        "Accept": "text/html,application/xhtml+xml"
+      }
+    });
+    const html = (await response.text()).slice(0, 700000);
+    const blocked = /captcha|challenge-platform|verify you are human|login to continue|something went wrong|consent_required|rate.?limit/i.test(html);
+    if (response.status === 404) {
+      return { platform, url: profileUrl, status: "not_found", message: "Публичная страница не найдена." };
+    }
+    if (!response.ok || blocked) {
+      return { platform, url: profileUrl, status: "unknown", message: "Площадка ограничила автоматическую проверку или не дала однозначного ответа." };
+    }
+    const title = (html.match(/<title[^>]*>([\\s\\S]*?)<\\/title>/i) || [,""])[1]
+      .replace(/&amp;/g, "&").replace(/&#x27;/g, "'").replace(/&quot;/g, '"').trim();
+    const hasProfileSignals = new RegExp(username.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\const server = http.createServer(async (req, res) => {"), "i").test(title) ||
+      /profilePage|profileHeader|user-profile|og:type.{0,30}profile|profile\\.php/i.test(html);
+    if (hasProfileSignals) {
+      return { platform, url: profileUrl, status: "possible_match", message: title ? "Найдена публичная страница: " + title.slice(0, 110) : "Страница отвечает как публичный профиль." };
+    }
+    return { platform, url: profileUrl, status: "unknown", message: "Страница открывается, но подтвердить профиль по её содержимому не удалось." };
+  } catch (error) {
+    return { platform, url: profileUrl, status: "unknown", message: error.name === "AbortError" ? "Истекло время ожидания ответа площадки." : "Не удалось получить публичную страницу." };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function discoverUsername(username) {
+  const platforms = ["telegram", "instagram", "tiktok", "x", "youtube", "reddit", "github", "pinterest", "threads"];
+  return Promise.all(platforms.map(platform => discoverOnPlatform(platform, username)));
+}
+\nconst server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://localhost");
 
   if (url.pathname.startsWith("/api/") && req.method === "OPTIONS") {
@@ -103,7 +155,28 @@ const server = http.createServer(async (req, res) => {
     return send(res, 200, { ok: true, service: "USERHUNT API" });
   }
 
-  if (url.pathname.startsWith("/api/check/")) {
+
+  if (url.pathname.startsWith("/api/discover/")) {
+    if (req.method !== "GET") return send(res, 405, { error: "Method not allowed" });
+    const ip = req.socket.remoteAddress || "unknown";
+    if (rateLimited(ip)) return send(res, 429, { error: "Слишком много запросов. Подожди минуту." });
+    const username = decodeURIComponent(url.pathname.slice("/api/discover/".length)).replace(/^@/, "");
+    if (!/^[a-zA-Z0-9._]{2,30}$/.test(username)) {
+      return send(res, 400, { error: "Введи ник длиной от 2 до 30 символов: латиница, цифры, точки или подчёркивание." });
+    }
+    const results = await discoverUsername(username);
+    return send(res, 200, {
+      username,
+      results,
+      summary: {
+        possible: results.filter(item => item.status === "possible_match").length,
+        unknown: results.filter(item => item.status === "unknown").length,
+        notFound: results.filter(item => item.status === "not_found").length
+      },
+      disclaimer: "Это поиск одинаковых публичных имён, а не подтверждение личности. Один человек может использовать разные ники, а одинаковые ники могут принадлежать разным людям."
+    });
+  }
+\n  if (url.pathname.startsWith("/api/check/")) {
     if (req.method !== "GET") return send(res, 405, { error: "Method not allowed" });
     const ip = req.socket.remoteAddress || "unknown";
     if (rateLimited(ip)) return send(res, 429, { error: "Слишком много запросов. Подожди минуту." });
