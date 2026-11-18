@@ -53,22 +53,30 @@ async function checkTelegram(username) {
     if (response.status === 404) {
       return {
         status: "not_found",
-        message: "Публичная страница не найдена. Это не гарантирует, что имя можно зарегистрировать."
+        availability: "unconfirmed",
+        confidence: "low",
+        message: "Публичная страница не найдена. Свободность имени НЕ подтверждена: оно может быть зарезервировано, коллекционным или недоступным для назначения."
       };
     }
     if (response.ok && /tgme_page_(title|extra|photo)/i.test(html)) {
       return {
         status: "occupied",
-        message: "Telegram отдаёт публичную страницу этого имени."
+        availability: "likely_occupied",
+        confidence: "medium",
+        message: "Telegram отдаёт публичную страницу этого имени. Считай его занятым, но это не официальная проверка возможности назначения."
       };
     }
     return {
       status: "unknown",
-      message: "Telegram не дал однозначного ответа. Попробуй позже или проверь имя в приложении."
+      availability: "unknown",
+      confidence: "none",
+      message: "Telegram не дал однозначного ответа. Нельзя определить, занято имя или доступно."
     };
   } catch (error) {
     return {
       status: "unknown",
+      availability: "unknown",
+      confidence: "none",
       message: error.name === "AbortError"
         ? "Проверка Telegram превысила лимит времени."
         : "Не удалось связаться с Telegram."
