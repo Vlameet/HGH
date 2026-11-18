@@ -28,7 +28,7 @@
 <div class="hint" id="hint">Telegram · от 5 до 32 символов · латиница, цифры и подчёркивание</div>
 <div class="result" id="result" role="status"></div>
 </div>
-<div class="notice">Пока доступна проверка формата. Проверка реальной занятости появится после подключения серверного API.</div>
+<div class="notice">Проверка выполняется сервером USERHUNT. Результат публичной проверки может быть неопределённым и не гарантирует возможность регистрации.</div>
 </section>
 <section class="wrap section">
 <div class="sectionhead"><h2>Больше, чем просто поиск</h2><p>Инструменты, чтобы найти имя, которое запомнят.</p></div>
@@ -49,7 +49,31 @@ const rules={telegram:{label:"Telegram",min:5,max:32,pattern:/^[a-zA-Z0-9_]+$/,d
 let platform="telegram";
 const input=document.querySelector("#username"),result=document.querySelector("#result"),hint=document.querySelector("#hint");
 document.querySelectorAll(".platform").forEach(btn=>btn.addEventListener("click",()=>{platform=btn.dataset.platform;document.querySelectorAll(".platform").forEach(b=>b.classList.toggle("active",b===btn));const r=rules[platform];hint.textContent=r.label+" · от "+r.min+" до "+r.max+" символов · "+r.desc;result.classList.remove("show")}));
-function check(){const value=input.value.trim().replace(/^@/,"");const r=rules[platform];result.classList.add("show");if(!value){result.innerHTML="Введи имя пользователя, чтобы проверить его формат.";return}if(value.length<r.min||value.length>r.max||!r.pattern.test(value)){result.innerHTML="<strong>Неверный формат.</strong> Для "+r.label+": от "+r.min+" до "+r.max+" символов, "+r.desc+".";return}result.innerHTML="<strong>Формат подходит.</strong> @"+value+" можно отправить на проверку доступности, когда сервер USERHUNT будет подключён. Реальная занятость пока не проверена."}
+async function check(){
+  const value=input.value.trim().replace(/^@/,"");
+  const r=rules[platform];
+  result.classList.add("show");
+  if(!value){result.textContent="Введи имя пользователя, чтобы проверить его формат.";return}
+  if(value.length<r.min||value.length>r.max||!r.pattern.test(value)){
+    result.textContent="Неверный формат. Для "+r.label+": от "+r.min+" до "+r.max+" символов, "+r.desc+".";
+    return;
+  }
+  result.textContent="Проверяем через сервер USERHUNT…";
+  try{
+    const response=await fetch("/api/check/"+encodeURIComponent(platform)+"/"+encodeURIComponent(value));
+    const data=await response.json();
+    if(!response.ok) throw new Error(data.error||"Ошибка сервера");
+    const labels={
+      occupied:"Публичная страница найдена",
+      not_found:"Публичная страница не найдена",
+      unknown:"Не удалось определить",
+      unsupported:"Проверка пока не подключена"
+    };
+    result.textContent=labels[data.status]+": @"+value+". "+data.message;
+  }catch(error){
+    result.textContent="Не удалось связаться с сервером USERHUNT. "+error.message;
+  }
+}
 document.querySelector("#check").addEventListener("click",check);input.addEventListener("keydown",e=>{if(e.key==="Enter")check()});
 const wordsA=["nova","vanta","lumo","zen","pixel","nex","orbit","mira","flux","vexo","mono","aero"],wordsB=["wave","core","fox","byte","zone","line","mind","shift","flow","star","lab","mode"];
 function generate(){const out=new Set();while(out.size<8){const a=wordsA[Math.floor(Math.random()*wordsA.length)],b=wordsB[Math.floor(Math.random()*wordsB.length)];out.add(Math.random()>.5?a+b:a+"_"+b)}const box=document.querySelector("#suggestions");box.innerHTML="";out.forEach(name=>{const b=document.createElement("button");b.className="suggestion";b.textContent="@"+name;b.addEventListener("click",()=>{input.value=name;input.focus();document.querySelector(".workspace").scrollIntoView({behavior:"smooth",block:"center"})});box.appendChild(b)})}
