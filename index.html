@@ -92,7 +92,22 @@ body:before{opacity:.42;background-size:42px 42px}
 .people-note{max-width:790px;margin:18px auto 0;color:#7f899e;font-size:11px;line-height:1.6;text-align:center}
 @media(max-width:760px){.people-grid{grid-template-columns:1fr}.person-card p{min-height:0}}
 
-</style>
+
+/* Cross-network username discovery */
+.discover-panel{max-width:900px;margin:0 auto;background:linear-gradient(145deg,#171b27,#0d1019);border:1px solid #ff334f55;border-radius:22px;padding:22px;box-shadow:0 18px 55px #0005}
+.discover-form{display:flex;gap:10px}
+.discover-form input{flex:1;min-width:0;background:#090e19;border:1px solid #30394e;border-radius:12px;color:#fff;padding:15px;font-size:16px;outline:none}
+.discover-form input:focus{border-color:#ff334f}
+.discover-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}
+.discover-result{background:#090e19;border:1px solid #30394e;border-radius:13px;padding:14px;min-width:0}
+.discover-result strong{display:block;margin-bottom:7px}
+.discover-result p{color:#929bb0;font-size:12px;line-height:1.5;min-height:36px;margin:7px 0}
+.discover-result a{color:#ff7184;font-weight:800;font-size:12px;text-decoration:none}
+.discover-result .state{font-size:10px;font-weight:900;letter-spacing:.5px;color:#ff9aa8}
+.discover-result .state.unknown{color:#b6bfd0}
+.discover-disclaimer{color:#8792a8;font-size:12px;line-height:1.6;margin:16px 2px 0}
+@media(max-width:650px){.discover-form{flex-direction:column}.discover-form .primary{padding:15px}.discover-results{grid-template-columns:1fr}}
+\n</style>
 </head>
 <body>
 <div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
@@ -126,7 +141,20 @@ body:before{opacity:.42;background-size:42px 42px}
 </section>
 </main>
 
-<section class="wrap section reveal people-section" id="telegram-people">
+
+<section class="wrap section reveal" id="discover-section">
+<div class="sectionhead"><h2>Найди человека в других соцсетях</h2><p>Введи один юзернейм и проверь совпадающие публичные профили на нескольких площадках.</p></div>
+<div class="discover-panel">
+<form class="discover-form" id="discover-form">
+<input id="discover-username" maxlength="30" autocomplete="off" spellcheck="false" placeholder="@username" aria-label="Юзернейм для поиска" required>
+<button class="primary" id="discover-submit" type="submit">Найти соцсети</button>
+</form>
+<div class="result" id="discover-status" role="status"></div>
+<div class="discover-results" id="discover-results"></div>
+<p class="discover-disclaimer">USERHUNT ищет одинаковые имена пользователей в публичных профилях. Это не поиск по лицу или телефону и не доказательство, что аккаунты принадлежат одному человеку. Некоторые соцсети блокируют автоматические запросы, поэтому часть результатов может остаться неопределённой.</p>
+</div>
+</section>
+\n<section class="wrap section reveal people-section" id="telegram-people">
 <div class="sectionhead"><h2>Лица Telegram</h2><p>Люди и авторы, за которыми следят в Telegram</p></div>
 <div class="people-grid">
 <article class="person-card">
@@ -192,7 +220,41 @@ function saveFavorites(items){localStorage.setItem(FAVORITES_KEY,JSON.stringify(
 function toggleFavorite(name){const items=getFavorites();const next=items.includes(name)?items.filter(x=>x!==name):[...items,name];saveFavorites(next)}
 function renderFavorites(){const items=getFavorites(),box=document.querySelector("#favorite-list");document.querySelector("#favorite-count").textContent="("+items.length+")";box.innerHTML="";if(!items.length){const empty=document.createElement("span");empty.className="favorite-empty";empty.textContent="Пока ничего не сохранено.";box.appendChild(empty);return}items.forEach(name=>{const item=document.createElement("span");item.className="favorite-item";const label=document.createElement("span");label.className="favorite-name";label.textContent="@"+name;const use=document.createElement("button");use.className="favorite-action";use.textContent="↗";use.title="Вставить в поиск";use.addEventListener("click",()=>{input.value=name;input.focus();document.querySelector(".workspace").scrollIntoView({behavior:"smooth",block:"center"})});const remove=document.createElement("button");remove.className="favorite-action";remove.textContent="×";remove.title="Удалить из избранного";remove.addEventListener("click",()=>toggleFavorite(name));item.append(label,use,remove);box.appendChild(item)})}
 function generate(){const out=new Set();let attempts=0;while(out.size<8&&attempts<300){attempts++;const a=wordsA[Math.floor(Math.random()*wordsA.length)],b=wordsB[Math.floor(Math.random()*wordsB.length)],tail=nameTails[Math.floor(Math.random()*nameTails.length)];const patterns=[()=>a+b,()=>a+"_"+b,()=>a+tail,()=>a+b+tail,()=>b+a,()=>a+Math.floor(10+Math.random()*90),()=>a+"_"+b.slice(0,4),()=>a+b.slice(0,4)];const name=patterns[Math.floor(Math.random()*patterns.length)]().toLowerCase();if(name.length>=5&&name.length<=24)out.add(name)}const box=document.querySelector("#suggestions");box.innerHTML="";out.forEach(name=>{const wrap=document.createElement("span");wrap.className="suggestion-wrap";const b=document.createElement("button");b.className="suggestion";b.textContent="@"+name;b.addEventListener("click",()=>{input.value=name;input.focus();document.querySelector(".workspace").scrollIntoView({behavior:"smooth",block:"center"})});const save=document.createElement("button");save.className="save-suggestion";save.textContent=getFavorites().includes(name)?"★":"☆";save.title="Добавить в избранное";save.setAttribute("aria-label","Добавить @"+name+" в избранное");save.addEventListener("click",()=>{toggleFavorite(name);save.textContent=getFavorites().includes(name)?"★":"☆"});wrap.append(b,save);box.appendChild(wrap)})}
-document.querySelector("#generate").addEventListener("click",generate);renderFavorites();generate();document.querySelector("#year").textContent=new Date().getFullYear();
+document.querySelector("#generate").addEventListener("click",generate);renderFavorites();generate();document.querySelector("#year").textContent=new Date().getFullYear();\n
+const discoverForm=document.querySelector("#discover-form");
+if(discoverForm){
+ const discoverInput=document.querySelector("#discover-username");
+ const discoverStatus=document.querySelector("#discover-status");
+ const discoverResults=document.querySelector("#discover-results");
+ const platformNames={telegram:"Telegram",instagram:"Instagram",tiktok:"TikTok",x:"X",youtube:"YouTube",reddit:"Reddit",github:"GitHub",pinterest:"Pinterest",threads:"Threads"};
+ discoverForm.addEventListener("submit",async event=>{
+  event.preventDefault();
+  const username=discoverInput.value.trim().replace(/^@/,"");
+  discoverResults.replaceChildren();
+  discoverStatus.textContent="Ищем публичные профили. Некоторые площадки могут отвечать медленно…";
+  discoverStatus.classList.add("show");
+  const submit=document.querySelector("#discover-submit");submit.disabled=true;submit.textContent="Ищем…";
+  try{
+   const response=await fetch(API_BASE+"/api/discover/"+encodeURIComponent(username));
+   const data=await response.json();
+   if(!response.ok)throw new Error(data.error||"Ошибка поиска");
+   data.results.forEach(item=>{
+    const card=document.createElement("article");card.className="discover-result";
+    const name=document.createElement("strong");name.textContent=platformNames[item.platform]||item.platform;
+    const state=document.createElement("div");state.className="state"+(item.status==="unknown"?" unknown":"");
+    state.textContent=item.status==="possible_match"?"ВОЗМОЖНОЕ СОВПАДЕНИЕ":item.status==="not_found"?"НЕ НАЙДЕНО":"НЕТ ПОДТВЕРЖДЕНИЯ";
+    const message=document.createElement("p");message.textContent=item.message;
+    card.append(name,state,message);
+    if(item.status==="possible_match"){const link=document.createElement("a");link.href=item.url;link.target="_blank";link.rel="noopener noreferrer";link.textContent="Открыть профиль ↗";card.append(link)}
+    else{const link=document.createElement("a");link.href=item.url;link.target="_blank";link.rel="noopener noreferrer";link.textContent="Проверить вручную ↗";card.append(link)}
+    discoverResults.append(card);
+   });
+   discoverStatus.textContent="Готово. Возможных совпадений: "+data.summary.possible+" из "+data.results.length+". "+data.disclaimer;
+  }catch(error){discoverStatus.textContent="Не удалось выполнить поиск: "+error.message}
+  finally{submit.disabled=false;submit.textContent="Найти соцсети"}
+ });
+}
+
 if("IntersectionObserver" in window&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches){const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("visible");revealObserver.unobserve(entry.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>revealObserver.observe(el))}else{document.querySelectorAll(".reveal").forEach(el=>el.classList.add("visible"))}
 </script>
 </body></html>
