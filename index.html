@@ -58,11 +58,26 @@ body:after{content:"";position:fixed;width:520px;height:520px;right:-230px;top:2
 @media(max-width:650px){.hero:before,.hero:after{width:100px;height:100px;right:-60px;top:55px}.hero:after{width:145px;height:145px;right:-80px;top:35px}.ambient-two{right:-100px}.card:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
 @media(max-width:650px){.wrap{width:min(100% - 26px,1120px)}.nav{height:66px}.nav small{display:none}.hero{padding:55px 0 20px}h1{letter-spacing:-2.5px}.hero p{font-size:15px}.workspace{padding:15px;border-radius:18px}.inputrow{flex-direction:column}.primary{padding:16px}.cards{grid-template-columns:1fr}.section{padding:48px 0}.sectionhead h2{font-size:27px}.genhead{align-items:flex-start;flex-direction:column}}
+
+/* USERHUNT high-visibility mobile polish */
+body:before{opacity:.42;background-size:42px 42px}
+.logo{box-shadow:0 0 0 5px #c8ff4d12,0 0 30px #c8ff4d70!important}
+.hero{overflow:visible}
+.hero:before{width:190px;height:190px;left:-38px;right:auto;top:125px;border:1px solid #c8ff4d55;box-shadow:0 0 24px #c8ff4d16,inset 0 0 24px #c8ff4d0c}
+.hero:after{width:260px;height:260px;right:-35px;top:70px;border:1px solid #55e6d044;box-shadow:0 0 32px #55e6d018}
+.workspace{border-color:#c8ff4d55;box-shadow:0 0 0 1px #c8ff4d12,0 20px 65px #0009,0 0 34px #c8ff4d14}
+.workspace:before{width:48%;background:linear-gradient(90deg,transparent,#c8ff4d20,#ffffff1c,#c8ff4d20,transparent);animation-duration:5s}
+.eyebrow{background:#c8ff4d0c;border-color:#c8ff4d88;box-shadow:0 0 22px #c8ff4d20}
+.primary{box-shadow:0 0 0 1px #e7ff9a88,0 0 26px #c8ff4d44}
+.live-indicator{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid #c8ff4d55;border-radius:99px;color:#d7ff83;font-size:10px;font-weight:900;letter-spacing:1px;white-space:nowrap;background:#c8ff4d0b}
+.live-indicator i{width:7px;height:7px;border-radius:50%;background:#c8ff4d;box-shadow:0 0 12px #c8ff4d;animation:dotPulse 1.4s ease-in-out infinite}
+@media(max-width:650px){.hero:before{width:130px;height:130px;left:-22px;right:auto;top:100px}.hero:after{width:175px;height:175px;right:-20px;top:58px}.nav{gap:8px}.live-indicator{font-size:8px;padding:6px 8px}.workspace{border-color:#c8ff4d66}}
+
 </style>
 </head>
 <body>
 <div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
-<header class="wrap nav"><div class="brand"><div class="logo">U</div>USERHUNT</div><small>ТВОЁ ИМЯ. ТВОИ ПРАВИЛА.</small></header>
+<header class="wrap nav"><div class="brand"><div class="logo">U</div>USERHUNT</div><span class="live-indicator"><i></i> LIVE SEARCH EXPERIENCE</span></header>
 <main>
 <section class="wrap hero">
 <div class="eyebrow"><span class="dot"></span> YOUR NEXT USERNAME STARTS HERE</div>
