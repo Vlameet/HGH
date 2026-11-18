@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b12">
+<meta name="description" content="USERHUNT — поиск и проверка коротких юзернеймов в социальных сетях.">
+<title>USERHUNT — найди своё имя</title>
+<style>
+:root{color-scheme:dark;--bg:#090b12;--panel:#111522;--panel2:#171d2d;--line:#252d40;--text:#f4f6fb;--muted:#929bb0;--lime:#c8ff4d;--cyan:#55e6d0;--red:#ff687d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#172337 0,transparent 38%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+.wrap{width:min(1120px,calc(100% - 40px));margin:auto}.nav{height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12}.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:1.5px}.logo{width:34px;height:34px;border-radius:11px;background:var(--lime);color:#111827;display:grid;place-items:center;font-weight:1000;font-size:19px}.nav small{color:var(--muted);font-size:13px}.hero{text-align:center;padding:76px 0 38px}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid #c8ff4d44;border-radius:99px;color:var(--lime);font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}.dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 14px var(--lime)}h1{font-size:clamp(42px,7vw,76px);line-height:.98;letter-spacing:-4px;margin:24px 0 18px;font-weight:900}.accent{color:var(--lime)}.hero p{max-width:590px;margin:0 auto;color:var(--muted);font-size:17px;line-height:1.65}.workspace{max-width:790px;margin:30px auto 0;background:linear-gradient(145deg,#151c2b,#0e1320);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 24px 80px #0008}.platforms{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.platform{border:1px solid var(--line);background:#0d1220;color:#aeb7c9;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer;transition:.2s}.platform.active{border-color:var(--lime);color:var(--lime);background:#c8ff4d12}.inputrow{display:flex;gap:10px}.inputbox{display:flex;align-items:center;gap:9px;flex:1;min-width:0;background:#090e19;border:1px solid #30394e;border-radius:14px;padding:0 15px}.at{color:var(--lime);font-size:20px;font-weight:800}.inputbox input{width:100%;min-width:0;background:transparent;border:0;outline:0;color:white;font-size:17px;padding:17px 0}.inputbox input::placeholder{color:#657087}.primary{border:0;border-radius:14px;padding:0 23px;background:var(--lime);color:#10150a;font-weight:900;font-size:15px;cursor:pointer;transition:.2s}.primary:hover{transform:translateY(-2px);filter:brightness(1.06)}.hint{color:var(--muted);font-size:12px;margin:12px 3px 0}.result{display:none;margin-top:17px;padding:15px;border:1px solid var(--line);background:#0b101b;border-radius:13px;color:#dce4f3;line-height:1.5}.result.show{display:block}.result strong{color:var(--lime)}.section{padding:70px 0}.sectionhead{text-align:center;margin-bottom:28px}.sectionhead h2{font-size:32px;letter-spacing:-1px;margin:0 0 9px}.sectionhead p{color:var(--muted);margin:0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}.cardicon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#c8ff4d16;color:var(--lime);font-size:20px}.card h3{margin:16px 0 8px;font-size:17px}.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}.generator{max-width:790px;margin:auto;border:1px solid var(--line);border-radius:20px;background:var(--panel);padding:22px}.genhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.genhead h3{margin:0}.secondary{border:1px solid var(--line);background:#1a2233;color:var(--text);padding:10px 13px;border-radius:11px;cursor:pointer;font-weight:700}.suggestions{display:flex;gap:9px;flex-wrap:wrap}.suggestion{border:1px solid #30394e;background:#0b101b;color:#e9edf7;border-radius:10px;padding:10px 13px;cursor:pointer}.suggestion:hover{border-color:var(--lime);color:var(--lime)}.notice{max-width:790px;margin:18px auto 0;color:#8792a8;font-size:12px;line-height:1.6;text-align:center}.footer{border-top:1px solid #ffffff12;padding:25px 0;color:#7f899e;font-size:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.footer b{color:#cbd3e3;letter-spacing:1px}
+@media(max-width:650px){.wrap{width:min(100% - 26px,1120px)}.nav{height:66px}.nav small{display:none}.hero{padding:55px 0 20px}h1{letter-spacing:-2.5px}.hero p{font-size:15px}.workspace{padding:15px;border-radius:18px}.inputrow{flex-direction:column}.primary{padding:16px}.cards{grid-template-columns:1fr}.section{padding:48px 0}.sectionhead h2{font-size:27px}.genhead{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="wrap nav"><div class="brand"><div class="logo">U</div>USERHUNT</div><small>ТВОЁ ИМЯ. ТВОИ ПРАВИЛА.</small></header>
+<main>
+<section class="wrap hero">
+<div class="eyebrow"><span class="dot"></span> YOUR NEXT USERNAME STARTS HERE</div>
+<h1>Найди имя.<br><span class="accent">Забери внимание.</span></h1>
+<p>Ищи короткие, звучные юзернеймы для социальных сетей. Одно имя — все твои цифровые пространства.</p>
+<div class="workspace">
+<div class="platforms" role="group" aria-label="Выбор платформы">
+<button class="platform active" data-platform="telegram">Telegram</button><button class="platform" data-platform="instagram">Instagram</button><button class="platform" data-platform="tiktok">TikTok</button><button class="platform" data-platform="x">X</button>
+</div>
+<div class="inputrow"><label class="inputbox"><span class="at">@</span><input id="username" maxlength="32" autocomplete="off" spellcheck="false" placeholder="твой_ник" aria-label="Имя пользователя"></label><button class="primary" id="check">Проверить</button></div>
+<div class="hint" id="hint">Telegram · от 5 до 32 символов · латиница, цифры и подчёркивание</div>
+<div class="result" id="result" role="status"></div>
+</div>
+<div class="notice">Пока доступна проверка формата. Проверка реальной занятости появится после подключения серверного API.</div>
+</section>
+<section class="wrap section">
+<div class="sectionhead"><h2>Больше, чем просто поиск</h2><p>Инструменты, чтобы найти имя, которое запомнят.</p></div>
+<div class="cards">
+<article class="card"><div class="cardicon">⌕</div><h3>Поиск юзернеймов</h3><p>Подбирай короткие и выразительные имена под свои проекты и профили.</p></article>
+<article class="card"><div class="cardicon">✳</div><h3>Генератор идей</h3><p>Получай варианты никнеймов, когда все хорошие идеи будто уже разобрали.</p></article>
+<article class="card"><div class="cardicon">◎</div><h3>Несколько платформ</h3><p>Подбирай имя для Telegram, Instagram, TikTok и X в одном месте.</p></article>
+</div>
+</section>
+<section class="wrap section" style="padding-top:0">
+<div class="sectionhead"><h2>Нужно вдохновение?</h2><p>Сгенерируй несколько идей и забери понравившуюся.</p></div>
+<div class="generator"><div class="genhead"><h3>Идеи для ника</h3><button class="secondary" id="generate">↻ Обновить варианты</button></div><div class="suggestions" id="suggestions"></div></div>
+</section>
+</main>
+<footer class="wrap footer"><b>USERHUNT</b><span>Поиск своего имени в цифровом мире.</span><span>© <span id="year"></span> USERHUNT</span></footer>
+<script>
+const rules={telegram:{label:"Telegram",min:5,max:32,pattern:/^[a-zA-Z0-9_]+$/,desc:"латиница, цифры и подчёркивание"},instagram:{label:"Instagram",min:1,max:30,pattern:/^[a-zA-Z0-9._]+$/,desc:"латиница, цифры, точки и подчёркивание"},tiktok:{label:"TikTok",min:2,max:24,pattern:/^[a-zA-Z0-9._]+$/,desc:"латиница, цифры, точки и подчёркивание"},x:{label:"X",min:1,max:15,pattern:/^[a-zA-Z0-9_]+$/,desc:"латиница, цифры и подчёркивание"}};
+let platform="telegram";
+const input=document.querySelector("#username"),result=document.querySelector("#result"),hint=document.querySelector("#hint");
+document.querySelectorAll(".platform").forEach(btn=>btn.addEventListener("click",()=>{platform=btn.dataset.platform;document.querySelectorAll(".platform").forEach(b=>b.classList.toggle("active",b===btn));const r=rules[platform];hint.textContent=r.label+" · от "+r.min+" до "+r.max+" символов · "+r.desc;result.classList.remove("show")}));
+function check(){const value=input.value.trim().replace(/^@/,"");const r=rules[platform];result.classList.add("show");if(!value){result.innerHTML="Введи имя пользователя, чтобы проверить его формат.";return}if(value.length<r.min||value.length>r.max||!r.pattern.test(value)){result.innerHTML="<strong>Неверный формат.</strong> Для "+r.label+": от "+r.min+" до "+r.max+" символов, "+r.desc+".";return}result.innerHTML="<strong>Формат подходит.</strong> @"+value+" можно отправить на проверку доступности, когда сервер USERHUNT будет подключён. Реальная занятость пока не проверена."}
+document.querySelector("#check").addEventListener("click",check);input.addEventListener("keydown",e=>{if(e.key==="Enter")check()});
+const wordsA=["nova","vanta","lumo","zen","pixel","nex","orbit","mira","flux","vexo","mono","aero"],wordsB=["wave","core","fox","byte","zone","line","mind","shift","flow","star","lab","mode"];
+function generate(){const out=new Set();while(out.size<8){const a=wordsA[Math.floor(Math.random()*wordsA.length)],b=wordsB[Math.floor(Math.random()*wordsB.length)];out.add(Math.random()>.5?a+b:a+"_"+b)}const box=document.querySelector("#suggestions");box.innerHTML="";out.forEach(name=>{const b=document.createElement("button");b.className="suggestion";b.textContent="@"+name;b.addEventListener("click",()=>{input.value=name;input.focus();document.querySelector(".workspace").scrollIntoView({behavior:"smooth",block:"center"})});box.appendChild(b)})}
+document.querySelector("#generate").addEventListener("click",generate);generate();document.querySelector("#year").textContent=new Date().getFullYear();
+</script>
+</body></html>
