@@ -1,0 +1,12 @@
+{
+  "name": "userhunt",
+  "version": "1.0.0",
+  "private": true,
+  "description": "USERHUNT web app and API",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
